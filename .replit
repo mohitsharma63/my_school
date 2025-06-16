@@ -1,0 +1,24 @@
+modules = ["php-8.2", "web", "bash", "vue-node-20"]
+run = "npm run dev"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "npm run dev"]
+
+[workflows]
+runButton = "Laravel Dev Server"
+
+[[workflows.workflow]]
+name = "Laravel Dev Server"
+author = 43888713
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "php artisan serve --host=0.0.0.0 --port=5000"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
