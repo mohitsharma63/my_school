@@ -14,7 +14,7 @@ class CreateExamRecordsTable extends Migration
     public function up()
     {
         Schema::create('exam_records', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedInteger('exam_id');
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('my_class_id');

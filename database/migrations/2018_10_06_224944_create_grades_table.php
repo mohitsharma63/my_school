@@ -12,19 +12,11 @@ class CreateGradesTable extends Migration
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-
-            // Make sure this matches the branches.id type exactly
-            $table->unsignedBigInteger('branch_id');
-
-            // Add any other columns you need
-
+            $table->unsignedInteger('class_type_id')->nullable();
+            $table->decimal('mark_from', 5, 2);
+            $table->decimal('mark_to', 5, 2);
+            $table->string('remark')->nullable();
             $table->timestamps();
-
-            // Add the foreign key constraint
-            $table->foreign('branch_id')
-                  ->references('id')
-                  ->on('branches')
-                  ->onDelete('cascade');
         });
     }
 

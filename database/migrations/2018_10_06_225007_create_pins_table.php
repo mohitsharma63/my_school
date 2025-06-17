@@ -14,7 +14,7 @@ class CreatePinsTable extends Migration
     public function up()
     {
         Schema::create('pins', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('code', 40)->unique();
             $table->string('used')->default(0);
             $table->string('times_used')->default(0);

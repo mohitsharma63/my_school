@@ -86,9 +86,15 @@ class AddBranchIdToTables extends Migration
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
         });
 
-        // Add branch_id to grades
+        // Add branch_id to grades (only if it doesn't exist)
+        if (!Schema::hasColumn('grades', 'branch_id')) {
+            Schema::table('grades', function (Blueprint $table) {
+                $table->unsignedBigInteger('branch_id')->after('id');
+            });
+        }
+
+        // Add foreign key constraint to grades
         Schema::table('grades', function (Blueprint $table) {
-            $table->unsignedBigInteger('branch_id')->after('id');
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
         });
 

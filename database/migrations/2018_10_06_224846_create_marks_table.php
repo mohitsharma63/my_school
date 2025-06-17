@@ -14,12 +14,12 @@ class CreateMarksTable extends Migration
     public function up()
     {
         Schema::create('marks', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('student_id');
-            $table->unsignedInteger('subject_id');
-            $table->unsignedInteger('my_class_id');
-            $table->unsignedInteger('section_id');
-            $table->unsignedInteger('exam_id');
+            $table->id();
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('my_class_id');
+            $table->unsignedBigInteger('section_id');
+            $table->unsignedBigInteger('exam_id');
             $table->integer('t1')->nullable();
             $table->integer('t2')->nullable();
             $table->integer('t3')->nullable();
@@ -32,7 +32,7 @@ class CreateMarksTable extends Migration
             $table->tinyInteger('sub_pos')->nullable();
             $table->integer('cum')->nullable();
             $table->string('cum_ave')->nullable();
-            $table->unsignedInteger('grade_id')->nullable();
+            $table->unsignedBigInteger('grade_id')->nullable();
             $table->string('year');
             $table->timestamps();
         });

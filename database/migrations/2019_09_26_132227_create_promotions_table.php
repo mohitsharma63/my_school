@@ -14,7 +14,7 @@ class CreatePromotionsTable extends Migration
     public function up()
     {
         Schema::create('promotions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedInteger('student_id');
             $table->unsignedInteger('from_class');
             $table->unsignedInteger('from_section');

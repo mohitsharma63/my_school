@@ -14,7 +14,7 @@ class CreateBookRequestsTable extends Migration
     public function up()
     {
         Schema::create('book_requests', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedInteger('book_id');
             $table->unsignedInteger('user_id');
             $table->string('start_date');

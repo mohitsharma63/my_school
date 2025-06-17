@@ -14,8 +14,8 @@ class CreateLgasTable extends Migration
     public function up()
     {
         Schema::create('lgas', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('state_id');
+            $table->id();
+            $table->unsignedBigInteger('state_id');
             $table->string('name');
             $table->timestamps();
         });
