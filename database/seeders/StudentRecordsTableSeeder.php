@@ -25,6 +25,12 @@ class StudentRecordsTableSeeder extends Seeder
     {
         $sections = Section::all();
 
+        // Check if sections exist
+        if ($sections->isEmpty()) {
+            echo "Warning: No sections found. Skipping bulk student record creation.\n";
+            return;
+        }
+
         foreach ($sections as $section){
           User::factory()
                 ->has(
@@ -48,6 +54,12 @@ class StudentRecordsTableSeeder extends Seeder
     protected function createStudentRecord()
     {
         $section = Section::first();
+
+        // Check if section exists
+        if (!$section) {
+            echo "Warning: No sections found. Skipping student record creation.\n";
+            return;
+        }
 
         $user = User::factory()->create([
             'name' => 'Student CJ',

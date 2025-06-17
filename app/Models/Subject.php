@@ -8,7 +8,8 @@ use Eloquent;
 class Subject extends Eloquent
 {
     protected $fillable = [
-        'branch_id','name', 'my_class_id', 'teacher_id', 'slug'];
+        'branch_id', 'name', 'my_class_id', 'teacher_id', 'slug'
+    ];
 
     public function my_class()
     {
@@ -19,11 +20,9 @@ class Subject extends Eloquent
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
-}
-
-
 
     public function branch()
     {
         return $this->belongsTo(Branch::class);
     }
+}

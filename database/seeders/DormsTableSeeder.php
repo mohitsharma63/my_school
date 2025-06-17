@@ -1,26 +1,38 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Dorm;
+use App\Models\Branch;
 
 class DormsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        DB::table('dorms')->delete();
-        $data = [
-            ['name' => 'Faith Hostel'],
-            ['name' => 'Peace Hostel'],
-            ['name' => 'Grace Hostel'],
-            ['name' => 'Success Hostel'],
-            ['name' => 'Trust Hostel'],
+        // Get the first branch or create one if none exists
+        $branch = Branch::first();
+
+        if (!$branch) {
+            $branch = Branch::create([
+                'name' => 'Main Branch',
+                'slug' => 'main-branch'
+            ]);
+        }
+
+        $dorms = [
+            'Faith Hostel',
+            'Peace Hostel',
+            'Grace Hostel',
+            'Success Hostel',
+            'Trust Hostel'
         ];
-        DB::table('dorms')->insert($data);
+
+        foreach ($dorms as $dormName) {
+            Dorm::create([
+                'name' => $dormName,
+                'branch_id' => $branch->id
+            ]);
+        }
     }
 }

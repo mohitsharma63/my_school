@@ -8,7 +8,7 @@ class Exam extends Eloquent
 {
     protected $fillable = [
         'branch_id','name', 'term', 'year'];
-}
+
 
 
 
@@ -16,3 +16,4 @@ class Exam extends Eloquent
     {
         return $this->belongsTo(Branch::class);
     }
+}

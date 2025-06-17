@@ -18,6 +18,12 @@ class SectionsTableSeeder extends Seeder
         DB::table('sections')->delete();
         $c = MyClass::pluck('id')->all();
 
+        // Check if we have enough classes
+        if (count($c) < 10) {
+            echo "Warning: Not enough classes found. Expected at least 10, found " . count($c) . ". Skipping sections seeder.\n";
+            return;
+        }
+
         $data = [
             ['name' => 'Gold', 'my_class_id' => $c[0], 'active' => 1],
             ['name' => 'Diamond', 'my_class_id' => $c[0], 'active' => 0],
