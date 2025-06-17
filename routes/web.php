@@ -97,6 +97,24 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('manage/{class_id?}', 'PaymentController@manage')->name('payments.manage');
             Route::get('invoice/{id}/{year?}', 'PaymentController@invoice')->name('payments.invoice');
             Route::get('receipts/{id}', 'PaymentController@receipts')->name('payments.receipts');
+
+// Super Admin Branch Management Routes
+Route::group(['middleware' => ['auth', 'super_admin'], 'prefix' => 'super_admin'], function () {
+    Route::get('/branch/{id}/details', [App\Http\Controllers\SuperAdmin\BranchManagementController::class, 'branchDetails'])->name('super_admin.branch_details');
+    Route::get('/branch/{id}/students', [App\Http\Controllers\SuperAdmin\BranchManagementController::class, 'branchStudents'])->name('super_admin.branch_students');
+    Route::get('/branch/{id}/payments', [App\Http\Controllers\SuperAdmin\BranchManagementController::class, 'branchPayments'])->name('super_admin.branch_payments');
+    Route::get('/branch/{id}/academics', [App\Http\Controllers\SuperAdmin\BranchManagementController::class, 'branchAcademics'])->name('super_admin.branch_academics');
+    Route::get('/branch/{id}/management', [App\Http\Controllers\SuperAdmin\BranchManagementController::class, 'branchManagement'])->name('super_admin.branch_management');
+    Route::get('/branch/{id}/edit', [App\Http\Controllers\SuperAdmin\BranchManagementController::class, 'editBranch'])->name('super_admin.branch_edit');
+    Route::get('/branch/{id}/reports', [App\Http\Controllers\SuperAdmin\BranchManagementController::class, 'branchReports'])->name('super_admin.branch_reports');
+});
+
+// Dashboard API Routes
+Route::group(['middleware' => ['auth'], 'prefix' => 'api'], function () {
+    Route::get('/branch-statistics', [App\Http\Controllers\Dashboard\MultiTenantDashboardController::class, 'getBranchStatistics']);
+    Route::get('/branch-details', [App\Http\Controllers\Dashboard\MultiTenantDashboardController::class, 'getBranchDetails']);
+});
+
             Route::get('pdf_receipts/{id}', 'PaymentController@pdf_receipts')->name('payments.pdf_receipts');
             Route::post('select_year', 'PaymentController@select_year')->name('payments.select_year');
             Route::post('select_class', 'PaymentController@select_class')->name('payments.select_class');
@@ -171,6 +189,15 @@ Route::group(['namespace' => 'SuperAdmin','middleware' => 'super_admin', 'prefix
 
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::put('/settings', 'SettingController@update')->name('settings.update');
+
+    // Branch Management Routes
+    Route::resource('branches', 'BranchManagementController')->except(['create', 'store', 'destroy']);
+    Route::get('/branches/{id}/details', 'BranchManagementController@branchDetails')->name('branches.details');
+
+    // Benefits Routes
+    Route::get('/benefits/dashboard', 'BenefitsController@dashboard')->name('benefits.dashboard');
+    Route::get('/benefits/cost-analysis', 'BenefitsController@costAnalysis')->name('benefits.cost-analysis');
+    Route::get('/benefits/performance-comparison', 'BenefitsController@performanceComparison')->name('benefits.performance-comparison');
 
 });
 
