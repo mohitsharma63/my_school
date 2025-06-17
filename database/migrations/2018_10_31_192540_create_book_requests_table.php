@@ -15,8 +15,8 @@ class CreateBookRequestsTable extends Migration
     {
         Schema::create('book_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('book_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('book_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('start_date');
             $table->string('end_date');
             $table->string('returned')->default(0);

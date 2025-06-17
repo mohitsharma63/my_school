@@ -6,11 +6,25 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateFks extends Migration
 {
+    private function foreignKeyExists($table, $constraintName)
+    {
+        $exists = DB::select("
+            SELECT CONSTRAINT_NAME
+            FROM information_schema.KEY_COLUMN_USAGE
+            WHERE TABLE_SCHEMA = DATABASE()
+            AND TABLE_NAME = ?
+            AND CONSTRAINT_NAME = ?
+        ", [$table, $constraintName]);
+
+        return !empty($exists);
+    }
 
     public function up()
     {
         Schema::table('lgas', function (Blueprint $table) {
-            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            if (!$this->foreignKeyExists('lgas', 'lgas_state_id_foreign')) {
+                $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            }
         });
 
         Schema::table('users', function (Blueprint $table) {
@@ -29,10 +43,7 @@ class CreateFks extends Migration
             $table->foreign('teacher_id')->references('id')->on('users')->onDelete('set null');
         });
 
-        Schema::table('subjects', function (Blueprint $table) {
-            $table->foreign('teacher_id')->references('id')->on('users');
-            $table->foreign('my_class_id')->references('id')->on('my_classes')->onDelete('cascade');
-        });
+        // Subjects foreign keys are now defined in the subjects table migration
 
         Schema::table('student_records', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

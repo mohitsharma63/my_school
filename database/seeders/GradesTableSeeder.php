@@ -21,8 +21,26 @@ class GradesTableSeeder extends Seeder
 
     protected function createGrades()
     {
-        // Get the default branch ID (first branch or create one if none exists)
-        $defaultBranchId = DB::table('branches')->first()->id ?? 1;
+        // Get the default branch ID, create one if none exists
+        $branch = DB::table('branches')->first();
+
+        if (!$branch) {
+            // Create a default branch if none exists
+            $branchId = DB::table('branches')->insertGetId([
+                'name' => 'Main Campus',
+                'address' => '123 Education Street',
+                'academic_year' => '2024-2025',
+                'phone' => '+1234567890',
+                'email' => 'main@school.edu',
+                'principal_name' => 'Administrator',
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $defaultBranchId = $branchId;
+        } else {
+            $defaultBranchId = $branch->id;
+        }
 
         $d = [
             ['name' => 'A', 'mark_from' => 70, 'mark_to' => 100, 'remark' => 'Excellent', 'branch_id' => $defaultBranchId],

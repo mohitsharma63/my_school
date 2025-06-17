@@ -17,12 +17,12 @@ class CreateSubjectsTable extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('slug', 100);
-            $table->unsignedInteger('my_class_id');
-            $table->unsignedInteger('teacher_id');
+            $table->unsignedBigInteger('my_class_id');
+            $table->unsignedBigInteger('teacher_id');
             $table->timestamps();
-        });
 
-        Schema::table('subjects', function (Blueprint $table) {
+            $table->foreign('teacher_id')->references('id')->on('users');
+            $table->foreign('my_class_id')->references('id')->on('my_classes')->onDelete('cascade');
             $table->unique(['my_class_id', 'name']);
         });
     }

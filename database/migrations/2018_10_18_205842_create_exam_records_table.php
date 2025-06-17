@@ -15,10 +15,10 @@ class CreateExamRecordsTable extends Migration
     {
         Schema::create('exam_records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('exam_id');
-            $table->unsignedInteger('student_id');
-            $table->unsignedInteger('my_class_id');
-            $table->unsignedInteger('section_id');
+            $table->unsignedBigInteger('exam_id');
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('my_class_id');
+            $table->unsignedBigInteger('section_id');
             $table->integer('total')->nullable();
             $table->string('ave')->nullable();
             $table->string('class_ave')->nullable();

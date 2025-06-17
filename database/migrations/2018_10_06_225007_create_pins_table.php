@@ -18,8 +18,8 @@ class CreatePinsTable extends Migration
             $table->string('code', 40)->unique();
             $table->string('used')->default(0);
             $table->string('times_used')->default(0);
-            $table->unsignedInteger('user_id')->nullable();
-            $table->unsignedInteger('student_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('student_id')->nullable();
             $table->timestamps();
         });
     }

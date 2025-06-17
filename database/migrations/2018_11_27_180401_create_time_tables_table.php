@@ -16,8 +16,8 @@ class CreateTimeTablesTable extends Migration
         Schema::create('time_table_records', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->unique();
-            $table->unsignedInteger('my_class_id');
-            $table->unsignedInteger('exam_id')->nullable();
+            $table->unsignedBigInteger('my_class_id');
+            $table->unsignedBigInteger('exam_id')->nullable();
             $table->string('year', 100);
             $table->timestamps();
 
@@ -25,8 +25,8 @@ class CreateTimeTablesTable extends Migration
         });
 
         Schema::create('time_slots', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('ttr_id');
+            $table->id();
+            $table->unsignedBigInteger('ttr_id');
             $table->tinyInteger('hour_from');
             $table->string('min_from', 2);
             $table->string('meridian_from', 2);
@@ -46,9 +46,9 @@ class CreateTimeTablesTable extends Migration
 
         Schema::create('time_tables', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('ttr_id');
-            $table->unsignedInteger('ts_id');
-            $table->unsignedInteger('subject_id')->nullable();
+            $table->unsignedBigInteger('ttr_id');
+            $table->unsignedBigInteger('ts_id');
+            $table->unsignedBigInteger('subject_id')->nullable();
             $table->string('exam_date', 50)->nullable();
             $table->string('timestamp_from', 100);
             $table->string('timestamp_to', 100);

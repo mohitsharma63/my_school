@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Branch extends Model
 {
@@ -29,12 +30,12 @@ class Branch extends Model
         parent::boot();
 
         static::creating(function ($branch) {
-            $branch->slug = \Str::slug($branch->name);
+            $branch->slug = Str::slug($branch->name);
         });
 
         static::updating(function ($branch) {
             if ($branch->isDirty('name')) {
-                $branch->slug = \Str::slug($branch->name);
+                $branch->slug = Str::slug($branch->name);
             }
         });
     }

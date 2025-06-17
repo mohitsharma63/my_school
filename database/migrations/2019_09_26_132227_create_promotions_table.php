@@ -15,11 +15,11 @@ class CreatePromotionsTable extends Migration
     {
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('student_id');
-            $table->unsignedInteger('from_class');
-            $table->unsignedInteger('from_section');
-            $table->unsignedInteger('to_class');
-            $table->unsignedInteger('to_section');
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('from_class');
+            $table->unsignedBigInteger('from_section');
+            $table->unsignedBigInteger('to_class');
+            $table->unsignedBigInteger('to_section');
             $table->tinyInteger('grad');
             $table->string('from_session');
             $table->string('to_session');

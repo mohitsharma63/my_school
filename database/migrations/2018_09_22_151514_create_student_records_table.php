@@ -15,12 +15,12 @@ class CreateStudentRecordsTable extends Migration
     {
         Schema::create('student_records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('my_class_id');
-            $table->unsignedInteger('section_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('my_class_id');
+            $table->unsignedBigInteger('section_id');
             $table->string('adm_no', 30)->unique()->nullable();
-            $table->unsignedInteger('my_parent_id')->nullable();
-            $table->unsignedInteger('dorm_id')->nullable();
+            $table->unsignedBigInteger('my_parent_id')->nullable();
+            $table->unsignedBigInteger('dorm_id')->nullable();
             $table->string('dorm_room_no')->nullable();
             $table->string('session');
             $table->string('house')->nullable();

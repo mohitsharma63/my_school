@@ -12,7 +12,7 @@ class CreateGradesTable extends Migration
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedInteger('class_type_id')->nullable();
+            $table->unsignedBigInteger('class_type_id')->nullable();
             $table->decimal('mark_from', 5, 2);
             $table->decimal('mark_to', 5, 2);
             $table->string('remark')->nullable();
