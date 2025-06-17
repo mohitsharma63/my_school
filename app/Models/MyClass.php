@@ -7,7 +7,7 @@ use Eloquent;
 class MyClass extends Eloquent
 {
     protected $fillable = [
-        'branch_id', 'name', 'class_type_id'
+        'branch_id', 'name', 'class_type_id', 'teacher_id'
     ];
 
     public function section()
@@ -28,5 +28,10 @@ class MyClass extends Eloquent
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 }

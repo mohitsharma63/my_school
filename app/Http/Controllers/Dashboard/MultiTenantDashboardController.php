@@ -141,4 +141,64 @@ class MultiTenantDashboardController extends Controller
 
         return $activities->sortByDesc('date')->take(5)->values();
     }
+
+    public function getBranchDetails(Request $request)
+    {
+        $branchId = $request->input('branch_id', $this->getCurrentBranchId());
+        $branch = Branch::with([
+            'students', 'staff', 'classes', 'subjects', 'exams',
+            'payments', 'dorms', 'timeTables', 'sections', 'grades',
+            'settings', 'users'
+        ])->findOrFail($branchId);
+
+        if (!auth()->user()->canAccessBranch($branchId)) {
+            abort(403);
+        }
+
+        $details = [
+            'branch_info' => [
+                'id' => $branch->id,
+                'name' => $branch->name,
+                'address' => $branch->address,
+                'phone' => $branch->phone,
+                'email' => $branch->email,
+                'principal_name' => $branch->principal_name,
+                'academic_year' => $branch->academic_year,
+                'established_date' => $branch->established_date,
+                'is_active' => $branch->is_active,
+            ],
+            'statistics' => [
+                'students' => $branch->students()->count(),
+                'active_students' => $branch->students()->where('is_graduated', 0)->count(),
+                'graduated_students' => $branch->students()->where('is_graduated', 1)->count(),
+                'staff' => $branch->staff()->count(),
+                'teachers' => $branch->staff()->whereHas('user', function($q) {
+                    $q->where('user_type', 'teacher');
+                })->count(),
+                'classes' => $branch->classes()->count(),
+                'sections' => $branch->sections()->count(),
+                'subjects' => $branch->subjects()->count(),
+                'exams' => $branch->exams()->count(),
+                'grades' => $branch->grades()->count(),
+                'dorms' => $branch->dorms()->count(),
+                'time_tables' => $branch->timeTables()->count(),
+                'users' => $branch->users()->count(),
+                'settings' => $branch->settings()->count(),
+                'total_revenue' => $branch->payments()->sum('amount'),
+                'monthly_revenue' => $branch->payments()
+                    ->whereMonth('created_at', now()->month)
+                    ->sum('amount'),
+                'payments_count' => $branch->payments()->count(),
+            ],
+            'blood_groups' => \App\Models\BloodGroup::all()->count(),
+            'nationalities' => \App\Models\Nationality::all()->count(),
+            'states' => \App\Models\State::all()->count(),
+            'lgas' => \App\Models\Lga::all()->count(),
+            'class_types' => \App\Models\ClassType::all()->count(),
+            'user_types' => \App\Models\UserType::all()->count(),
+            'skills' => \App\Models\Skill::all()->count(),
+        ];
+
+        return response()->json($details);
+    }
 }
